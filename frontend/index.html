@@ -23,14 +23,14 @@
       <h2>Login with Google</h2>
       <p>Replace the placeholder Google client ID with your real one to enable the real sign-in widget.</p>
       <div id="g_id_onload"
-           data-client_id="YOUR_GOOGLE_CLIENT_ID"
+           data-client_id="332623556051-m5071hr3u59i5aof148e6e5r81j52iuq.apps.googleusercontent.com"
            data-context="signin"
            data-ux_mode="popup"
            data-callback="handleGoogleCredentialResponse"
            data-auto_prompt="false">
       </div>
       <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"></div>
-      <button onclick="demoLogin()" style="margin-top: 12px; background: #0f766e;">Continue to calculator (demo mode)</button>
+      <!-- <button onclick="demoLogin()" style="margin-top: 12px; background: #0f766e;">Continue to calculator (demo mode)</button> -->
     </div>
 
     <div id="homeView" class="hidden">
@@ -61,10 +61,10 @@
     document.getElementById("homeView").classList.remove("hidden");
   }
 
-  function demoLogin() {
-    showHome();
-    showStatus("Demo login enabled. Replace the Google client ID to use real Google auth.");
-  }
+  // function demoLogin() {
+  //   showHome();
+  //   showStatus("Demo login enabled. Replace the Google client ID to use real Google auth.");
+  // }
 
   function showStatus(message)
   {
