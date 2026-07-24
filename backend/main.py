@@ -1,8 +1,9 @@
-from fastapi import FastAPI, HTTPException
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
-from pydantic import BaseModel
 from pathlib import Path
+
+from fastapi import APIRouter, FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from pydantic import BaseModel
 
 app = FastAPI(title="Starter App")
 
@@ -14,15 +15,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+api_router = APIRouter(prefix="/api")
+
 
 class LoginRequest(BaseModel):
     id_token: str
-
-
-@app.get("/", response_class=HTMLResponse)
-async def home():
-    html_path = Path(__file__).resolve().parent.parent / "FrontEnd" / "index.html"
-    return html_path.read_text(encoding="utf-8")
 
 
 @app.get("/health")
@@ -30,7 +27,7 @@ async def health():
     return {"status": "ok"}
 
 
-@app.post("/api/login")
+@api_router.post("/login")
 async def login(payload: LoginRequest):
     if not payload.id_token:
         raise HTTPException(
@@ -42,3 +39,16 @@ async def login(payload: LoginRequest):
         "message": "Login successful",
         "authenticated": True
     }
+
+
+# Register API routes FIRST
+app.include_router(api_router)
+
+# Mount the frontend LAST
+frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
+
+app.mount(
+    "/",
+    StaticFiles(directory=frontend_dir, html=True),
+    name="frontend"
+)

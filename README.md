@@ -15,6 +15,5 @@ This workspace contains a simple FastAPI backend and an HTML frontend scaffold.
    `pip install -r requirements.txt`
 3. Start the server:
    `uvicorn backend.main:app --reload`
-4. Open the frontend:
-   Open [frontend/index.html](frontend/index.html) in your browser.
-5. http://127.0.0.1:8000 on the server
+4. Open the frontend in your browser via the server:
+   `http://127.0.0.1:8000`

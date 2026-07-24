@@ -3,7 +3,7 @@ const BASE_URL = "http://127.0.0.1:8000/api";
 async function callApi(endpoint, method = "GET", data = null) {
 
     const options = {
-        method: method,
+        method,
         headers: {
             "Content-Type": "application/json"
         }
