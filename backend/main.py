@@ -27,6 +27,15 @@ async def health():
     return {"status": "ok"}
 
 
+@api_router.get("/subtract")
+async def subtract(a: float, b: float):
+    result = a - b
+    
+    return {
+        "operation": "subtraction",
+        "result": result
+    }
+
 @api_router.post("/login")
 async def login(payload: LoginRequest):
     if not payload.id_token:
