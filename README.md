@@ -4,9 +4,17 @@ This workspace contains a simple FastAPI backend and an HTML frontend scaffold.
 
 ## Run the backend
 
-1. Install dependencies:
+1. Create and activate a Python virtual environment:
+   - Windows PowerShell:
+     `python -m venv .venv`
+     `./.venv/Scripts/Activate.ps1`
+   - macOS/Linux:
+     `python3 -m venv .venv`
+     `source .venv/bin/activate`
+2. Install dependencies:
    `pip install -r requirements.txt`
-2. Start the server:
+3. Start the server:
    `uvicorn backend.main:app --reload`
-3. Open the frontend:
+4. Open the frontend:
    Open [frontend/index.html](frontend/index.html) in your browser.
+5. http://127.0.0.1:8000 on the server
