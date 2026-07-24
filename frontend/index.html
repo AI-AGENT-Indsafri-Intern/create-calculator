@@ -44,7 +44,8 @@
           <button >Subtract</button>
           <button >Add</button>
           <button >Division</button>
-          <button >Multiplication</button>
+          <!-- <button >Multiplication</button> -->
+          <button onclick="multiply()">Multiplication</button>
         </div>
         <div id="result" class="result">Result will appear here.</div>
         <div id="status" class="status"></div>
@@ -55,6 +56,22 @@
 <script src="api.js"></script>
 
 <script>
+  function multiply() {
+    const num1 = parseFloat(document.getElementById("number1").value);
+    const num2 = parseFloat(document.getElementById("number2").value);
+
+    if (isNaN(num1) || isNaN(num2)) {
+      showStatus("Please enter valid numbers.");
+      return;
+    }
+
+    callApi("/multiply", "POST", {a: num1, b: num2 })
+    .then(data => {
+        document.getElementById("result").textContent =
+            `Result: ${data.result}`;
+    });
+  }
+
   function showHome()
   {
     document.getElementById("loginView").classList.add("hidden");
@@ -70,7 +87,6 @@
   {
     document.getElementById("status").textContent = message;
   }
-
 
 
   window.handleGoogleCredentialResponse = async function(response) 

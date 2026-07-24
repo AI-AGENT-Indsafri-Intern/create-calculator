@@ -14,6 +14,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+class Numbers(BaseModel):
+    a: float
+    b: float
+
 
 class LoginRequest(BaseModel):
     id_token: str
@@ -42,3 +46,8 @@ async def login(payload: LoginRequest):
         "message": "Login successful",
         "authenticated": True
     }
+
+@app.post("/multiply")
+async def multiply(a: float, b: float):
+    result = a * b
+    return {"result": result}
