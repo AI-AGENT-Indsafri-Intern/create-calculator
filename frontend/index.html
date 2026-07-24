@@ -37,14 +37,14 @@
       <h2>Calculator</h2>
       <div class="card">
         <label>Number 1</label>
-        <input id="number1" type="number" step="any" />
+        <input id="number1" type="number" step="any"  required/>
         <label>Number 2</label>
         <input id="number2" type="number" step="any" />
         <div class="buttons">
-          <button onclick="callOperation('subtract')">Subtract</button>
-          <button onclick="callOperation('add')">Add</button>
-          <button onclick="callOperation('divide')">Division</button>
-          <button onclick="callOperation('multiply')">Multiplication</button>
+          <button >Subtract</button>
+          <button >Add</button>
+          <button >Division</button>
+          <button >Multiplication</button>
         </div>
         <div id="result" class="result">Result will appear here.</div>
         <div id="status" class="status"></div>
@@ -71,29 +71,7 @@
     document.getElementById("status").textContent = message;
   }
 
-  async function callOperation(operation) 
-  {
-    const number1 = parseFloat(document.getElementById("number1").value);
-    const number2 = parseFloat(document.getElementById("number2").value);
 
-    if (Number.isNaN(number1) || Number.isNaN(number2)) {
-      showStatus("Please enter both numbers.");
-      return;
-    }
-
-    try 
-    {
-      const data = await callApi("/calculate", "POST", {number1,number2,operation});
-
-      document.getElementById("result").textContent = `Result: ${data.result}`;
-      showStatus("");
-    } catch (error)
-    {
-      document.getElementById("result").textContent = "Result unavailable.";
-      showStatus(error.message);
-    }
-
-  }
 
   window.handleGoogleCredentialResponse = async function(response) 
   {
