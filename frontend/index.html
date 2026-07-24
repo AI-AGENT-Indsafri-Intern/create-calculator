@@ -92,7 +92,6 @@
       }
 
       // Calls http://127.0.0.1:8000/api/login
-      
       await callApi("/login", "POST", { id_token: response.credential });
 
       showHome();
