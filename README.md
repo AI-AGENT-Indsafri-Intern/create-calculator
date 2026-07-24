@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# create-calculator
-=======
 # Intern Calculator Task
 
 This workspace contains a simple FastAPI backend and an HTML frontend scaffold.
@@ -21,4 +18,3 @@ This workspace contains a simple FastAPI backend and an HTML frontend scaffold.
 4. Open the frontend:
    Open [frontend/index.html](frontend/index.html) in your browser.
 5. http://127.0.0.1:8000 on the server
->>>>>>> master
