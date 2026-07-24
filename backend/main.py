@@ -21,6 +21,10 @@ api_router = APIRouter(prefix="/api")
 class LoginRequest(BaseModel):
     id_token: str
 
+class CalculatorRequest(BaseModel):
+    number1: float
+    number2: float
+
 
 @app.get("/health")
 async def health():
@@ -52,3 +56,17 @@ app.mount(
     StaticFiles(directory=frontend_dir, html=True),
     name="frontend"
 )
+
+@api_router.post("/divide")
+async def divide(request: CalculatorRequest):
+    # Divides number1 by number2, guarding against division by zero
+    if request.number2 == 0:
+        raise HTTPException(status_code=400, detail="Division by zero is not allowed!!.")
+
+    result = request.number1 / request.number2
+    return {
+        "operation": "Division",
+        "number1": request.number1,
+        "number2": request.number2,
+        "result": result
+    }

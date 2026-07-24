@@ -43,8 +43,8 @@
         <div class="buttons">
           <button >Subtract</button>
           <button >Add</button>
-          <button >Division</button>
           <button >Multiplication</button>
+          <button id="divisionbutton">Division</button>
         </div>
         <div id="result" class="result">Result will appear here.</div>
         <div id="status" class="status"></div>
@@ -91,6 +91,41 @@
       showStatus(error.message);
     }
   };
+
+
+  // Reads and validates the two number inputs, returns null (and shows an error) if invalid
+function getNumbers() {
+  const num1 = parseFloat(document.getElementById("number1").value);
+  const num2 = parseFloat(document.getElementById("number2").value);
+
+  if (isNaN(num1) || isNaN(num2)) {
+    showStatus("Please enter valid numbers in both fields.");
+    return null;
+  }
+
+  showStatus(""); // clear any previous error
+  return { num1, num2 };
+}
+
+document.getElementById("divisionbutton").addEventListener("click", performDivision);
+// Calls the divide endpoint with both numbers and displays the result
+async function performDivision() {
+  const numbers = getNumbers();
+  if (!numbers) return;
+
+  try {
+    const response = await callApi("/divide", "POST", {
+      number1: numbers.num1,
+      number2: numbers.num2
+    });
+
+    document.getElementById("result").textContent = "Result: " + response.result;
+  } catch (error) {
+    showStatus(error.message);
+  }
+}
+
+
 </script>
 </body>
 </html>
