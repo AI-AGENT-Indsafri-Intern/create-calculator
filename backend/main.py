@@ -46,9 +46,14 @@ app.include_router(api_router)
 
 # Mount the frontend LAST
 frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
+@app.get("/add")
+def add(num1: float, num2: float):
+    result = num1 + num2
+    return {"result": result}
 
 app.mount(
     "/",
     StaticFiles(directory=frontend_dir, html=True),
     name="frontend"
 )
+
