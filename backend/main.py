@@ -64,6 +64,7 @@ def add(num1: float, num2: float):
     return {"result": result}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 app.mount(
     "/",
     StaticFiles(directory=frontend_dir, html=True),
@@ -73,3 +74,6 @@ app.mount(
 =======
 app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
 >>>>>>> 3af049f (added multiplication function)
+=======
+app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
+>>>>>>> development
