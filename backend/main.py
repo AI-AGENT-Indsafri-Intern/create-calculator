@@ -30,24 +30,27 @@ async def health():
 @api_router.get("/subtract")
 async def subtract(a: float, b: float):
     result = a - b
-    
-    return {
-        "operation": "subtraction",
-        "result": result
-    }
+
+    return {"operation": "subtraction", "result": result}
+
 
 @api_router.post("/login")
 async def login(payload: LoginRequest):
     if not payload.id_token:
-        raise HTTPException(
-            status_code=400,
-            detail="Google ID token is required"
-        )
+        raise HTTPException(status_code=400, detail="Google ID token is required")
 
-    return {
-        "message": "Login successful",
-        "authenticated": True
-    }
+    return {"message": "Login successful", "authenticated": True}
+
+
+# class that contains parameters needed when user uses multiplication endpoints
+class Numbers(BaseModel):
+    number1: float
+    number2: float
+
+
+@api_router.post("/multiply")
+async def multiply(num: Numbers):
+    return {"result": num.number1 * num.number2}
 
 
 # Register API routes FIRST
@@ -60,9 +63,13 @@ def add(num1: float, num2: float):
     result = num1 + num2
     return {"result": result}
 
+<<<<<<< HEAD
 app.mount(
     "/",
     StaticFiles(directory=frontend_dir, html=True),
     name="frontend"
 )
 
+=======
+app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
+>>>>>>> 3af049f (added multiplication function)
