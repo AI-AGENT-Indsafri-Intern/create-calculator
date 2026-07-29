@@ -89,7 +89,7 @@
         <label>Number 2</label>
         <input id="number2" type="number" step="any" />
         <div class="buttons">
-          <button>Subtract</button>
+          <buttononclick="handleSubtract()">Subtract</button>
           <button onclick="addNumbers()">Add</button>
           <button>Division</button>
           <button>Multiplication</button>
@@ -102,11 +102,11 @@
 
   <script src="api.js"></script>
 
-  <script>
-    function showHome() {
-      document.getElementById("loginView").classList.add("hidden");
-      document.getElementById("homeView").classList.remove("hidden");
-    }
+<script>
+  function showHome() {
+    document.getElementById("loginView").classList.add("hidden");
+    document.getElementById("homeView").classList.remove("hidden");
+  }
 
     // function demoLogin() {
     //   showHome();
@@ -116,24 +116,47 @@
     function showStatus(message) {
       document.getElementById("status").textContent = message;
     }
+  function showStatus(message) {
+    document.getElementById("status").textContent = message;
+  }
 
+  async function handleSubtract() {
+    showStatus(""); // Clear previous errors
+    
+    const number1 = document.getElementById("number1").value;
+    const number2 = document.getElementById("number2").value;
 
+    if (number1 === "" || number2 === "") {
+      showStatus("Please enter both numbers.");
+      return;
+    }
 
-    window.handleGoogleCredentialResponse = async function (response) {
-      try {
-        if (!response || !response.credential) {
-          throw new Error("Google sign-in did not return a credential");
-        }
+    try {
+      // Calls http://127.0.0.1:8000/api/subtract?a=X&b=Y
+      const response = await callApi(`/subtract?a=${encodeURIComponent(number1)}&b=${encodeURIComponent(number2)}`, "GET");
+      
+      document.getElementById("result").textContent = "Result: " + response.result;
+    } catch (error) {
+      showStatus(error.message);
+    }
+  }
 
-        await callApi("/login", "POST", { id_token: response.credential });
-
-        showHome();
-
-      } catch (error) {
-        showStatus(error.message);
+  window.handleGoogleCredentialResponse = async function(response) {
+    try {
+      if (!response || !response.credential) {
+        throw new Error("Google sign-in did not return a credential");
       }
-    };
-  </script>
+
+      // Calls http://127.0.0.1:8000/api/login
+      await callApi("/login", "POST", { id_token: response.credential });
+
+      showHome();
+    } catch (error) {
+      showStatus(error.message);
+    }
+  };
+</script>
+
 </body>
 
 </html>
