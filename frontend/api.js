@@ -22,3 +22,18 @@ async function callApi(endpoint, method = "GET", data = null) {
 
     return result;
 }
+
+
+async function addNumbers() {
+
+    const num1 = Number(document.getElementById("number1").value);
+    const num2 = Number(document.getElementById("number2").value);
+
+    const response = await fetch(
+        `http://127.0.0.1:8000/add?num1=${num1}&num2=${num2}`
+    );
+
+    const data = await response.json();
+
+    document.getElementById("result").innerText = data.result;
+}
