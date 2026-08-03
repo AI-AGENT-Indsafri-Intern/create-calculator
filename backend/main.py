@@ -31,18 +31,30 @@ async def health():
     return {"status": "ok"}
 
 
+@api_router.get("/subtract")
+async def subtract(a: float, b: float):
+    result = a - b
+
+    return {"operation": "subtraction", "result": result}
+
+
 @api_router.post("/login")
 async def login(payload: LoginRequest):
     if not payload.id_token:
-        raise HTTPException(
-            status_code=400,
-            detail="Google ID token is required"
-        )
+        raise HTTPException(status_code=400, detail="Google ID token is required")
 
-    return {
-        "message": "Login successful",
-        "authenticated": True
-    }
+    return {"message": "Login successful", "authenticated": True}
+
+
+# class that contains parameters needed when user uses multiplication endpoints
+class Numbers(BaseModel):
+    number1: float
+    number2: float
+
+
+@api_router.post("/multiply")
+async def multiply(num: Numbers):
+    return {"result": num.number1 * num.number2}
 
 
 # Register API routes FIRST
@@ -51,22 +63,4 @@ app.include_router(api_router)
 # Mount the frontend LAST
 frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
 
-app.mount(
-    "/",
-    StaticFiles(directory=frontend_dir, html=True),
-    name="frontend"
-)
-
-@api_router.post("/divide")
-async def divide(request: CalculatorRequest):
-    # Divides number1 by number2, guarding against division by zero
-    if request.number2 == 0:
-        raise HTTPException(status_code=400, detail="Division by zero is not allowed!!.")
-
-    result = request.number1 / request.number2
-    return {
-        "operation": "Division",
-        "number1": request.number1,
-        "number2": request.number2,
-        "result": result
-    }
+app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
