@@ -3,7 +3,9 @@ from pathlib import Path
 from fastapi import APIRouter, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+
+# import shared Pydantic models from SharedClasses
+from SharedClasses import Numbers, LoginRequest
 
 app = FastAPI(title="Starter App")
 
@@ -18,20 +20,10 @@ app.add_middleware(
 api_router = APIRouter(prefix="/api")
 
 
-class LoginRequest(BaseModel):
-    id_token: str
-
-
 @app.get("/health")
 async def health():
     return {"status": "ok"}
 
-
-@api_router.get("/subtract")
-async def subtract(a: float, b: float):
-    result = a - b
-
-    return {"operation": "subtraction", "result": result}
 
 
 @api_router.post("/login")
@@ -42,38 +34,28 @@ async def login(payload: LoginRequest):
     return {"message": "Login successful", "authenticated": True}
 
 
-# class that contains parameters needed when user uses multiplication endpoints
-class Numbers(BaseModel):
-    number1: float
-    number2: float
 
+@api_router.get("/subtract")
+async def subtract(a: float, b: float):
+    result = a - b
+    return {"operation": "subtraction", "result": result}
 
 @api_router.post("/multiply")
 async def multiply(num: Numbers):
     return {"result": num.number1 * num.number2}
 
 
-# Register API routes FIRST
-app.include_router(api_router)
-
-# Mount the frontend LAST
-frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
 @app.get("/add")
 def add(num1: float, num2: float):
     result = num1 + num2
     return {"result": result}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-app.mount(
-    "/",
-    StaticFiles(directory=frontend_dir, html=True),
-    name="frontend"
-)
+# Register API routes FIRST
+app.include_router(api_router)
 
-=======
+# Mount the frontend LAST
+frontend_dir = Path(__file__).resolve().parent.parent / "frontend"
+
+
+# Serve frontend static files
 app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
->>>>>>> 3af049f (added multiplication function)
-=======
-app.mount("/", StaticFiles(directory=frontend_dir, html=True), name="frontend")
->>>>>>> development
