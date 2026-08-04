@@ -54,6 +54,7 @@ def add(num1: float, num2: float):
 @app.get("/divide")
 async def divide(a: float, b: float):
     return {
+        
         "operation": "division",
         "result": a / b
     }
