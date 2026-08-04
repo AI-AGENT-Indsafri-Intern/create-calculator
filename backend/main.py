@@ -50,6 +50,16 @@ def add(num1: float, num2: float):
     result = num1 + num2
     return {"result": result}
 
+#Division endpoint
+@app.get("/divide")
+async def divide(a: float, b: float):
+    return {
+        
+        "operation": "division",
+        "result": a / b
+    }
+
+
 # Register API routes FIRST
 app.include_router(api_router)
 
